@@ -23,7 +23,7 @@ document.querySelectorAll('.item').forEach(item => {
 //Functions
 function itemClick(event){
     let item = event.target.getAttribute('data-item');
-    if(square[item] === ''){
+    if(playing && square[item] === ''){
         square[item] = player;
         renderSquare();
         tooglePlayer();
@@ -36,7 +36,7 @@ function reset () {
 
     //escolhendo aleatóriamente um player
     let random = Math.floor(Math.random() *2);
-    player = (random ===0) ? 'x': 'O';
+    player = (random ===0) ? 'x': 'o';
 
     //zerando o tabuleiro - OBS: formas de acessar um objeto em JS (square[i] ou square['a1'])
     for(let i in square){
@@ -53,7 +53,7 @@ function reset () {
 
 function renderSquare() {
     for(let i in square) {
-        let item = document.querySelector(`div[data-item=${i}]`)
+        let item = document.querySelector(`div[data-item=${i}]`);
         item.innerHTML = square[i];
     }
 
@@ -81,15 +81,15 @@ function tooglePlayer(){
 function checkGame(){
     if(checkWinnerFor('x')){
         warning = ' O "x" venceu';
-        player = false;
+        playing = false;
 
     }else if( checkWinnerFor('o')){
         warning = 'O "o" venceu';
-        player = false;
+        playing = false;
 
     }else if(isFull()){
         warning = 'Deu empate';
-        player = false;
+        playing = false;
 
     }
 }
@@ -120,5 +120,10 @@ function checkWinnerFor(player){
 }
 
 function isFull(){
-
+    for(let i in square){
+        if(square[i] === '') {
+            return false;
+        }
+    }
+    return true;
 }
